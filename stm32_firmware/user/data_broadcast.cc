@@ -6,7 +6,7 @@
 
 #include "librm.hpp"
 
-extern fp32 GLOB_ins_quat_wxyz[4];
+extern const rm::modules::algorithm::MahonyAhrs *p_mahony;
 
 /**
  * @note  packet structure
@@ -46,7 +46,7 @@ void IOInit() {
 }
 
 void Broadcast() {
-  Update(GLOB_ins_quat_wxyz[0], GLOB_ins_quat_wxyz[1], GLOB_ins_quat_wxyz[2], GLOB_ins_quat_wxyz[3]);
+  Update(p_mahony->quaternion().w, p_mahony->quaternion().x, p_mahony->quaternion().y, p_mahony->quaternion().z);
 
   CDC_Transmit_FS(buf, 13);        // broadcast via usb
   can1->Write(0xaaa, &buf[3], 8);  // broadcast via can1
