@@ -1,0 +1,3 @@
+[submodule "stm32_firmware/libs/librm"]
+	path = stm32_firmware/libs/librm
+	url = https://github.com/IRobot-EC-2024/librm.git
