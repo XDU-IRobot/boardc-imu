@@ -6,19 +6,10 @@
 #include <array>
 #include <functional>
 
-#include <geometry_msgs/msg/detail/quaternion_stamped__struct.hpp>
 #include <memory>
-#include <sensor_msgs/msg/imu.hpp>
 #include <geometry_msgs/msg/quaternion_stamped.hpp>
 
 #include "crc.h"
-
-enum class DecoderState {
-  kSof,
-  kSeq,
-  kCrc8,
-  kPayloadCrc16,
-};
 
 /**
  * @brief 解包器，读取字节流，解析数据帧
@@ -31,9 +22,16 @@ class Decoder {
   Decoder &operator<<(const std::string &s);
 
  private:
-  DecoderState state_{DecoderState::kSof};
+  enum class State {
+    kSof,
+    kSeq,
+    kCrc8,
+    kPayloadCrc16,
+  } state_{State::kSof};
+
   std::function<void(geometry_msgs::msg::QuaternionStamped::SharedPtr)> callback_;
-  geometry_msgs::msg::QuaternionStamped::SharedPtr quaternion_msg_{std::make_shared<geometry_msgs::msg::QuaternionStamped>()};
+  geometry_msgs::msg::QuaternionStamped::SharedPtr quaternion_msg_{
+      std::make_shared<geometry_msgs::msg::QuaternionStamped>()};
 
   std::deque<uint8_t> in_queue_{};
   std::array<uint8_t, 20> out_buffer_{};

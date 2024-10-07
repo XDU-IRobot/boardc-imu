@@ -1,9 +1,7 @@
 
 #include <memory>
 
-#include <rclcpp/qos.hpp>
 #include <rclcpp/rclcpp.hpp>
-#include <sensor_msgs/msg/imu.hpp>
 #include <geometry_msgs/msg/quaternion_stamped.hpp>
 #include "serial/serial.h"
 
@@ -23,8 +21,7 @@ class BoardcImuNode : public rclcpp::Node {
 
     serial_rx_thread_ = std::thread([this] {
       while (rclcpp::ok()) {
-        std::string a = serial_.read();
-        decoder_ << a;
+        decoder_ << serial_.read();
       }
     });
   }
@@ -36,10 +33,7 @@ class BoardcImuNode : public rclcpp::Node {
 
  private:
   std::thread serial_rx_thread_{};
-  sensor_msgs::msg::Imu imu_msg_{};
   geometry_msgs::msg::QuaternionStamped quaternion_msg_{};
-  rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imu_pub_{
-      create_publisher<sensor_msgs::msg::Imu>("imu", rclcpp::SensorDataQoS())};
   rclcpp::Publisher<geometry_msgs::msg::QuaternionStamped>::SharedPtr quaternion_pub_{
       create_publisher<geometry_msgs::msg::QuaternionStamped>("quaternion", rclcpp::SensorDataQoS())};
   serial::Serial serial_{"/dev/boardc_imu", 921600, serial::Timeout::simpleTimeout(1000)};

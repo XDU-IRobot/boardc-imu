@@ -11,7 +11,6 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 find_package(rclcpp REQUIRED)
-find_package(sensor_msgs REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
 file(GLOB_RECURSE SOURCES "src/*.cc")
@@ -23,7 +22,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/inc
 
 ament_target_dependencies(${PROJECT_NAME}
   rclcpp
-  sensor_msgs
   tf2_geometry_msgs
 )
 

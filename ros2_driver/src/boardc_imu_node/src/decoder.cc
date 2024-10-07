@@ -2,9 +2,6 @@
 #include "decoder.h"
 
 #include <memory>
-#include <rclcpp/clock.hpp>
-#include <rclcpp/logging.hpp>
-#include <rclcpp/time.hpp>
 #include <string>
 
 #include <rclcpp/rclcpp.hpp>
@@ -29,45 +26,43 @@ Decoder &Decoder::operator<<(const std::string &s) {
   for (const auto &c : s) {
     in_queue_.push_back(c);
   }
-  u8 byte;
+  static u8 byte = 0;
 
   while (!in_queue_.empty()) {
-    // RCLCPP_INFO(rclcpp::get_logger("boardc_imu_node"), "idx = %ld, data = %x, state = %d", idx_, byte, state_);
-
     byte = in_queue_.front();
     in_queue_.pop_front();
     switch (state_) {
-      case DecoderState::kSof: {
+      case State::kSof: {
         if (byte == kSof) {
-          state_ = DecoderState::kSeq;
+          state_ = State::kSeq;
           out_buffer_[idx_++] = byte;
         }
         break;
       }
-      case DecoderState::kSeq: {
+      case State::kSeq: {
         out_buffer_[idx_++] = byte;
         if (idx_ == 2) {
-          state_ = DecoderState::kCrc8;
+          state_ = State::kCrc8;
         } else {
-          state_ = DecoderState::kSof;
+          state_ = State::kSof;
           idx_ = 0;
         }
         break;
       }
-      case DecoderState::kCrc8: {
+      case State::kCrc8: {
         out_buffer_[idx_++] = byte;
         if (idx_ == 3 &&
             rm::modules::algorithm::Crc8(out_buffer_.data(), 2, rm::modules::algorithm::CRC8_INIT) == byte) {
-          state_ = DecoderState::kPayloadCrc16;
+          state_ = State::kPayloadCrc16;
         } else {
           RCLCPP_WARN(rclcpp::get_logger("boardc_imu_node"), "CRC8 error, drop packet, calc = %x, recv = %x",
                       rm::modules::algorithm::Crc8(out_buffer_.data(), 2, rm::modules::algorithm::CRC8_INIT), byte);
-          state_ = DecoderState::kSof;
+          state_ = State::kSof;
           idx_ = 0;
         }
         break;
       }
-      case DecoderState::kPayloadCrc16: {
+      case State::kPayloadCrc16: {
         if (idx_ < kPacketLength) {
           out_buffer_[idx_++] = byte;
         } else {
@@ -87,7 +82,7 @@ Decoder &Decoder::operator<<(const std::string &s) {
                                                       rm::modules::algorithm::CRC16_INIT),
                         (u16)(out_buffer_[kPacketLength - 2] | out_buffer_[kPacketLength - 1] << 8));
           }
-          state_ = DecoderState::kSof;
+          state_ = State::kSof;
           idx_ = 0;
         }
       }
