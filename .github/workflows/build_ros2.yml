@@ -31,5 +31,4 @@ jobs:
         shell: bash
         run: |
           source /opt/ros/${{ matrix.ros_distro }}/setup.sh
-          cd ${{github.workspace}}/ros2_driver
-          colcon build --cmake-args -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+          colcon build --cmake-args -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} --packages-select boardc_imu_node
