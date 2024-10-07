@@ -4,3 +4,6 @@
 [submodule "ros2_driver/src/boardc_imu_node/libs/serial"]
 	path = ros2_driver/src/boardc_imu_node/libs/serial
 	url = https://github.com/lunarifish/serial.git
+[submodule "stm32_firmware/libs/eternal"]
+	path = stm32_firmware/libs/eternal
+	url = https://github.com/mapbox/eternal.git
