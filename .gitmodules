@@ -1,3 +1,6 @@
 [submodule "stm32_firmware/libs/librm"]
 	path = stm32_firmware/libs/librm
 	url = https://github.com/IRobot-EC-2024/librm.git
+[submodule "ros2_driver/src/boardc_imu_node/libs/serial"]
+	path = ros2_driver/src/boardc_imu_node/libs/serial
+	url = https://github.com/lunarifish/serial.git
