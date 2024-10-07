@@ -43,6 +43,7 @@ add_subdirectory(cmake/stm32cubemx)
 add_subdirectory(user)
 add_subdirectory(openocd)
 add_subdirectory(libs)
+add_custom_target(ci DEPENDS ${CMAKE_PROJECT_NAME})
 
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
