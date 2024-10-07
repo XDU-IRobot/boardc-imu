@@ -1,5 +1,7 @@
 # boardc-imu/stm32_firmware
 
+[![build_stm32](https://github.com/IRobot-EC-2024/boardc-imu/actions/workflows/build_stm32.yml/badge.svg)](https://github.com/IRobot-EC-2024/boardc-imu/actions/workflows/build_stm32.yml)
+
 数据会通过 USBCDC 虚拟串口和两条 CAN 总线发送出来
 
 为了减小仓库体积，没有包含 CubeMX 生成的工程文件和库文件，编译之前请重新生成一次

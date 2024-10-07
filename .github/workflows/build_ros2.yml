@@ -1,4 +1,4 @@
-name: build
+name: build_ros2
 
 on: [push, pull_request]
 
@@ -29,4 +29,7 @@ jobs:
           submodules: "recursive"
       - name: Build
         shell: bash
-        run: source /opt/ros/${{ matrix.ros_distro }}/setup.sh;colcon build --cmake-args -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+        run: |
+          source /opt/ros/${{ matrix.ros_distro }}/setup.sh
+          cd ${{github.workspace}}/ros2_driver
+          colcon build --cmake-args -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}

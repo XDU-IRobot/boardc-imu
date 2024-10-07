@@ -1,5 +1,37 @@
 # boardc-imu/ros2_driver
 
+<table>
+<tr>
+<td>foxy</td>
+<td rowspan=2>
+    <a href="https://github.com/IRobot-EC-2024/boardc-imu/actions/workflows/build_ros2_eol.yml">
+        <img src="https://github.com/IRobot-EC-2024/boardc-imu/actions/workflows/build_ros2_eol.yml/badge.svg">
+    </a>
+</td>
+</tr>
+<tr>
+<td>galactic</td>
+</tr>
+<tr>
+<td>humble</td>
+<td rowspan=4>
+    <a href="https://github.com/IRobot-EC-2024/boardc-imu/actions/workflows/build_ros2.yml">
+        <img src="https://github.com/IRobot-EC-2024/boardc-imu/actions/workflows/build_ros2.yml/badge.svg">
+    </a>
+</td>
+</tr>
+<tr>
+<td>iron</td>
+</tr>
+<tr>
+<td>jazzy</td>
+</tr>
+<tr>
+<td>rolling</td>
+</tr>
+</table>
+
+
 ## 使用方法
 
 添加 udev 规则
