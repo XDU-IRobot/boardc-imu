@@ -104,9 +104,19 @@ int main(void) {
   MX_CAN1_Init();
   MX_CAN2_Init();
   MX_USB_DEVICE_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   InsInit();
   IOInit();
+  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
+  __HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_3, 8000);
+  HAL_Delay(50);
+  __HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_3, 0);
+  HAL_Delay(50);
+  __HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_3, 8000);
+  HAL_Delay(50);
+  __HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_3, 0);
+  HAL_TIM_PWM_Stop(&htim4, TIM_CHANNEL_3);
   /* USER CODE END 2 */
 
   /* Infinite loop */

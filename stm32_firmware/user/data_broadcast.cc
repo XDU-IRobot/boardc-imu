@@ -6,7 +6,7 @@
 
 #include "librm.hpp"
 
-extern const rm::modules::algorithm::MahonyAhrs *p_mahony;
+extern const rm::modules::algorithm::MahonyAhrs *p_ahrs_solver;
 
 /**
  * @note  packet structure
@@ -46,10 +46,10 @@ void IOInit() {
 }
 
 void Broadcast() {
-  Update(p_mahony->quaternion().w, p_mahony->quaternion().x, p_mahony->quaternion().y, p_mahony->quaternion().z);
+  Update(p_ahrs_solver->quaternion().w, p_ahrs_solver->quaternion().x, p_ahrs_solver->quaternion().y, p_ahrs_solver->quaternion().z);
 
   CDC_Transmit_FS(buf, 13);        // broadcast via usb
-  can1->Write(0xaaa, &buf[3], 8);  // broadcast via can1
-  can2->Write(0xaaa, &buf[3], 8);  // broadcast via can2
+  // can1->Write(0xaaa, &buf[3], 8);  // broadcast via can1
+  // can2->Write(0xaaa, &buf[3], 8);  // broadcast via can2
 }
 }
