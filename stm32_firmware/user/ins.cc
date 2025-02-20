@@ -14,7 +14,7 @@ void BMI088TempControl(fp32 ref_temp, fp32 target_temp) {
 }
 
 static rm::device::BMI088 *bmi088{nullptr};
-static rm::modules::algorithm::AhrsInterface *ahrs_solver = new rm::modules::algorithm::EkfAhrs{800.f};
+static rm::modules::algorithm::AhrsInterface *ahrs_solver = new rm::modules::algorithm::MahonyAhrs{1000.f};
 const rm::modules::algorithm::AhrsInterface *p_ahrs_solver = ahrs_solver;
 
 extern "C" {

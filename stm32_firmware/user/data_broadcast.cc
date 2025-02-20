@@ -40,16 +40,16 @@ extern "C" {
 
 void IOInit() {
   can1 = new rm::hal::Can{hcan1};
-  can2 = new rm::hal::Can{hcan2};
+  // can2 = new rm::hal::Can{hcan2};
   can1->Begin();
-  can2->Begin();
+  // can2->Begin();
 }
 
 void Broadcast() {
   Update(p_ahrs_solver->quaternion().w, p_ahrs_solver->quaternion().x, p_ahrs_solver->quaternion().y, p_ahrs_solver->quaternion().z);
 
   CDC_Transmit_FS(buf, 13);        // broadcast via usb
-  // can1->Write(0xaaa, &buf[3], 8);  // broadcast via can1
+  can1->Write(0xaaa, &buf[3], 8);  // broadcast via can1
   // can2->Write(0xaaa, &buf[3], 8);  // broadcast via can2
 }
 }
